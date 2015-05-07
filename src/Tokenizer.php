@@ -134,7 +134,7 @@ class Tokenizer
                     $pos      = $next;
                     break;
                 case self::CHAR_BACKSLASH:
-                    $next   = pos;
+                    $next   = $pos;
                     $escape = true;
                     while ($string[$next + 1] === self::CHAR_BACKSLASH) {
                         $next  += 1;
