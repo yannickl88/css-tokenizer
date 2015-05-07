@@ -10,10 +10,14 @@ class Token
     const T_BRACKETS     = 1;
     const T_OPENBRACKET  = 2;
     const T_CLOSEBRACKET = 3;
-    const T_STRING       = 4;
-    const T_WORD         = 5;
-    const T_ATWORD       = 6;
-    const T_COMMENT      = 7;
+    const T_OPENCURLY    = 4;
+    const T_CLOSECURLY   = 5;
+    const T_COLON        = 6;
+    const T_SEMICOLON    = 7;
+    const T_STRING       = 8;
+    const T_WORD         = 9;
+    const T_ATWORD       = 10;
+    const T_COMMENT      = 11;
 
     public $type;
     public $chars;
