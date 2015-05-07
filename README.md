@@ -61,12 +61,12 @@ The following types are defined:
 ## Installation
 Installing is pretty easy, this package is available on [packagist](https://packagist.org/packages/ydelange/css-tokenizer).
 ```
-$ composer require ydelange/css-tokenizer
+$ composer require yannickl88/css-tokenizer
 ```
 Or you can add this to your composer.json manually:
 ```javascript
 "require" : {
-    "ydelange/css-tokenizer" : "*@dev-master"
+    "yannickl88/css-tokenizer" : "*@dev-master"
 }
 ```
 > Note: You can use dev-master if you want the latest changes, but this is not recommended for production code!
