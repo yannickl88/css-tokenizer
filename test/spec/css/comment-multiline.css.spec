@@ -1,5 +1,30 @@
-/* foo
- *
- * bar */
+/* CSS/LESS ORDER */
+body {}
+/*
+## FOOBAR
+*/
+body {}
+/* ## FOOBAR
+*/
+body {}
 ============TEST
-T_COMMENT,1:3,1:9,"\/* foo\n *\n * bar *\/"
+T_COMMENT,1:1,1:20,"\/* CSS\/LESS ORDER *\/"
+T_WHITESPACE,2,0,"\n"
+T_WORD,2:2,1:4,"body"
+T_WHITESPACE,2,5," "
+T_OPENCURLY,2,6,"{"
+T_CLOSECURLY,2,7,"}"
+T_WHITESPACE,3,0,"\n"
+T_COMMENT,3:5,1:2,"\/*\n## FOOBAR\n*\/"
+T_WHITESPACE,6,0,"\n"
+T_WORD,6:6,1:4,"body"
+T_WHITESPACE,6,5," "
+T_OPENCURLY,6,6,"{"
+T_CLOSECURLY,6,7,"}"
+T_WHITESPACE,7,0,"\n"
+T_COMMENT,7:8,1:2,"\/* ## FOOBAR\n*\/"
+T_WHITESPACE,9,0,"\n"
+T_WORD,9:9,1:4,"body"
+T_WHITESPACE,9,5," "
+T_OPENCURLY,9,6,"{"
+T_CLOSECURLY,9,7,"}"
