@@ -18,6 +18,9 @@ class Token
     const T_WORD         = 9;
     const T_ATWORD       = 10;
     const T_COMMENT      = 11;
+    const T_COMMA        = 12;
+    const T_OPENSQUARE   = 13;
+    const T_CLOSESQUARE  = 14;
 
     public $type;
     public $chars;

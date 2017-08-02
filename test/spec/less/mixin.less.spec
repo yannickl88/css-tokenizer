@@ -1,0 +1,51 @@
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+============TEST
+T_WORD,1:1,1:9,".bordered"
+T_WHITESPACE,1,10," "
+T_OPENCURLY,1,11,"{"
+T_WHITESPACE,2,0,"\n  "
+T_WORD,2:2,3:12,"border-top"
+T_COLON,2,13,":"
+T_WHITESPACE,2,14," "
+T_WORD,2:2,15:20,"dotted"
+T_WHITESPACE,2,21," "
+T_WORD,2:2,22:24,"1px"
+T_WHITESPACE,2,25," "
+T_WORD,2:2,26:30,"black"
+T_SEMICOLON,2,31,";"
+T_WHITESPACE,3,0,"\n  "
+T_WORD,3:3,3:15,"border-bottom"
+T_COLON,3,16,":"
+T_WHITESPACE,3,17," "
+T_WORD,3:3,18:22,"solid"
+T_WHITESPACE,3,23," "
+T_WORD,3:3,24:26,"2px"
+T_WHITESPACE,3,27," "
+T_WORD,3:3,28:32,"black"
+T_SEMICOLON,3,33,";"
+T_WHITESPACE,4,0,"\n"
+T_CLOSECURLY,4,1,"}"
+T_WHITESPACE,5,0,"\n"
+T_WORD,5:5,1:5,"#menu"
+T_WHITESPACE,5,6," "
+T_WORD,5:5,7:7,"a"
+T_WHITESPACE,5,8," "
+T_OPENCURLY,5,9,"{"
+T_WHITESPACE,6,0,"\n  "
+T_WORD,6:6,3:7,"color"
+T_COLON,6,8,":"
+T_WHITESPACE,6,9," "
+T_WORD,6:6,10:13,"#111"
+T_SEMICOLON,6,14,";"
+T_WHITESPACE,7,0,"\n  "
+T_WORD,7:7,3:11,".bordered"
+T_SEMICOLON,7,12,";"
+T_WHITESPACE,8,0,"\n"
+T_CLOSECURLY,8,1,"}"

@@ -1,13 +1,9 @@
-.\31 a2b3c {
-
- }
+.\31 a2b3c {}
 ============TEST
 T_WORD,1:1,1:1,"."
-T_WORD,1:1,2:3,"\\3"
-T_WORD,1:1,4:4,"1"
+T_WORD,1:1,2:4,"\\31"
 T_WHITESPACE,1,5," "
 T_WORD,1:1,6:10,"a2b3c"
 T_WHITESPACE,1,11," "
 T_OPENCURLY,1,12,"{"
-T_WHITESPACE,3,0,"\n\n "
-T_CLOSECURLY,3,3,"}"
+T_CLOSECURLY,1,13,"}"

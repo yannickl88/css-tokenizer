@@ -48,13 +48,16 @@ The following types are defined:
  * `T_WORD`, all words, like `color`, `padding-top` or `12px`.
  * `T_COLON`, colon `:`.
  * `T_SEMICOLON`, semi-colon `;`.
+ * `T_COMMA`, comma `,`.
  * `T_STRING`, everything between `'` or `"` quotes, like `"/path/to/my/image.jpg"`.
  * `T_OPENBRACKET`, open bracket `(`.
  * `T_CLOSEBRACKET`, close bracket `)`.
  * `T_OPENCURLY`, open curly bracket `{`.
  * `T_CLOSECURLY`, close curly bracket `}`
+ * `T_OPENSQUARE`, open square bracket `[`.
+ * `T_CLOSESQUARE`, close square bracket `]`
  * `T_ATWORD`, all words that start with a `@`, like `@media` or `@font-face`.
- * `T_COMMENT`, comments, like `/* comment */`.
+ * `T_COMMENT`, comments, like `/* comment */` or `// comment`.
  
 > Note: There is also `T_BRACKETS`, however this is only in case of parse errors that you will see this token.
 

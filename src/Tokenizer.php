@@ -22,14 +22,18 @@ class Tokenizer
     const CHAR_CLOSEBRACKET = ')';
     const CHAR_OPENCURLY    = '{';
     const CHAR_CLOSECURLY   = '}';
+    const CHAR_OPENSQUARE   = '[';
+    const CHAR_CLOSESQUARE  = ']';
     const CHAR_SEMICOLON    = ';';
     const CHAR_ASTERISK     = '*';
     const CHAR_COLON        = ':';
+    const CHAR_COMMA        = ',';
     const CHAR_AT           = '@';
 
-    const REGEX_ATEND       = '/[ \n\t\r\{\(\)\'"\;]/';
-    const REGEX_WORDEND     = '/[ \n\t\r\(\)\{\}:;@!\'"\\\\]|\/(?=\*)/';
+    const REGEX_ATEND       = '/[ \n\t\r\f\{\(\)\'"\;\[\]:#,]/';
+    const REGEX_WORDEND     = '/[ \n\t\r\f\(\)\{\}:;@!\'"\\\\\[\]#,]|\/(?=\*)/';
     const REGEX_BADBRACKET  = '/.[\\\\\/\("\'\n]/';
+    const REGEX_HEX_ESCAPE  = '/[a-z0-9]/i';
 
     /**
      * @return string[]
@@ -60,7 +64,10 @@ class Tokenizer
         while ($pos < $length) {
             $code = $string[$pos];
 
-            if ($code === self::CHAR_NEWLINE) {
+            if ($code === self::CHAR_NEWLINE
+                || $code === self::CHAR_FEED
+                || ($code === self::CHAR_CR && $string[$pos + 1] !== self::CHAR_NEWLINE)
+            ) {
                 $offset = $pos;
                 $line++;
             }
@@ -90,6 +97,12 @@ class Tokenizer
                     $tokens[] = new Token(Token::T_WHITESPACE, substr($string, $pos, $next - $pos), $line, $pos - $offset);
                     $pos      = $next - 1;
                     break;
+                case self::CHAR_OPENSQUARE:
+                    $tokens[] = new Token(Token::T_OPENSQUARE, $code, $line, $pos - $offset);
+                    break;
+                case self::CHAR_CLOSESQUARE:
+                    $tokens[] = new Token(Token::T_CLOSESQUARE, $code, $line, $pos - $offset);
+                    break;
                 case self::CHAR_OPENCURLY:
                     $tokens[] = new Token(Token::T_OPENCURLY, $code, $line, $pos - $offset);
                     break;
@@ -98,6 +111,9 @@ class Tokenizer
                     break;
                 case self::CHAR_COLON:
                     $tokens[] = new Token(Token::T_COLON, $code, $line, $pos - $offset);
+                    break;
+                case self::CHAR_COMMA:
+                    $tokens[] = new Token(Token::T_COMMA, $code, $line, $pos - $offset);
                     break;
                 case self::CHAR_SEMICOLON:
                     $tokens[] = new Token(Token::T_SEMICOLON, $code, $line, $pos - $offset);
@@ -156,34 +172,48 @@ class Tokenizer
                     $code = $string[$next + 1];
                     if ($escape && $code !== self::CHAR_SLASH && ! in_array($code, self::getWhitespaces())) {
                         $next++;
+
+                        if (1 === preg_match(self::REGEX_HEX_ESCAPE, $string[$next])) {
+                            while ($next + 1 < strlen($string) && 1 === preg_match(self::REGEX_HEX_ESCAPE, $string[$next + 1])) {
+                                $next++;
+                            }
+                        }
                     }
                     $tokens[] = new Token(Token::T_WORD, substr($string, $pos, $next + 1 - $pos), $line, $pos - $offset, $line, $next - $offset);
                     $pos      = $next;
                     break;
                 default:
                     if ($code === self::CHAR_SLASH && $string[$pos + 1] === self::CHAR_ASTERISK) {
-                        $next = strpos($string, '*/', $pos + 2) + 1;
+                        $next = strpos($string, '*/', $pos + 2);
                         if (false === $next) {
                             throw new \RuntimeException('unclosed');
                         }
 
-                        $content = substr($string, $pos, $next + 1);
+                        $content = substr($string, $pos, $next + 2 - $pos);
                         $lines   = explode("\n", $content);
                         $last    = count($lines) - 1;
 
                         if ($last > 0) {
                             $nextLine   = $line + $last;
-                            $nextOffset = $next - strlen($lines[$last]);
+                            $nextOffset = $next + 1 - strlen($lines[$last]);
                         } else {
                             $nextLine   = $line;
                             $nextOffset = $offset;
                         }
 
-                        $tokens[] = new Token(Token::T_COMMENT, $content, $line, $pos - $offset, $nextLine, $next - $nextOffset);
+                        $tokens[] = new Token(Token::T_COMMENT, $content, $line, $pos - $offset, $nextLine, ($next + 1) - $nextOffset);
 
                         $offset = $nextOffset;
                         $line   = $nextLine;
-                        $pos    = $next;
+                        $pos    = $next + 1;
+                    } elseif ($code === self::CHAR_SLASH && $string[$pos + 1] === self::CHAR_SLASH) {
+                        $next = strpos($string, "\n", $pos + 2);
+                        if (false === $next) {
+                            $next = $pos + 2;
+                        }
+
+                        $tokens[] = new Token(Token::T_COMMENT, substr($string, $pos, $next - $pos), $line, $pos - $offset, $line, $next - $offset);
+                        $pos      = $next;
                     } else {
                         $matches = [];
                         if (preg_match(self::REGEX_WORDEND, $string, $matches, PREG_OFFSET_CAPTURE, $pos + 1) === 0) {

@@ -1,0 +1,9 @@
+a[bc] {}
+============TEST
+T_WORD,1:1,1:1,"a"
+T_OPENSQUARE,1,2,"["
+T_WORD,1:1,3:4,"bc"
+T_CLOSESQUARE,1,5,"]"
+T_WHITESPACE,1,6," "
+T_OPENCURLY,1,7,"{"
+T_CLOSECURLY,1,8,"}"
