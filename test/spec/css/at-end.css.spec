@@ -1,0 +1,10 @@
+@one{@two()@three""@four
+============TEST
+T_ATWORD,1:1,1:4,"@one"
+T_OPENCURLY,1,5,"{"
+T_ATWORD,1:1,6:9,"@two"
+T_OPENBRACKET,1,10,"("
+T_CLOSEBRACKET,1,11,")"
+T_ATWORD,1:1,12:17,"@three"
+T_STRING,1:1,18:19,"\"\""
+T_ATWORD,1:1,20:24,"@four"

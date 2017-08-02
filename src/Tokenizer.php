@@ -72,15 +72,20 @@ class Tokenizer
                 case self::CHAR_CR:
                 case self::CHAR_FEED:
                     $next = $pos;
-                    do {
-                        $next++;
-                        $code = $string[$next];
+                        do {
+                            $next++;
 
-                        if ($code === self::CHAR_NEWLINE) {
-                            $offset = $pos;
-                            $line++;
-                        }
-                    } while (in_array($code, self::getWhitespaces()));
+                            if ($next >= $length) {
+                                break;
+                            }
+
+                            $code = $string[$next];
+
+                            if ($code === self::CHAR_NEWLINE) {
+                                $offset = $pos;
+                                $line++;
+                            }
+                        } while (in_array($code, self::getWhitespaces()));
 
                     $tokens[] = new Token(Token::T_WHITESPACE, substr($string, $pos, $next - $pos), $line, $pos - $offset);
                     $pos      = $next - 1;
