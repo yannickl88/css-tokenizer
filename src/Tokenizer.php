@@ -212,8 +212,8 @@ class Tokenizer
                             $next = $pos + 2;
                         }
 
-                        $tokens[] = new Token(Token::T_COMMENT, substr($string, $pos, $next - $pos), $line, $pos - $offset, $line, $next - $offset);
-                        $pos      = $next;
+                        $tokens[] = new Token(Token::T_COMMENT, substr($string, $pos, $next - 1 - $pos), $line, $pos - $offset, $line, $next - 1 - $offset);
+                        $pos      = $next - 1;
                     } else {
                         $matches = [];
                         if (preg_match(self::REGEX_WORDEND, $string, $matches, PREG_OFFSET_CAPTURE, $pos + 1) === 0) {
