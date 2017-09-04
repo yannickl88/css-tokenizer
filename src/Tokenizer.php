@@ -212,7 +212,7 @@ class Tokenizer
                             $next = $pos + 2;
                         }
 
-                        $tokens[] = new Token(Token::T_COMMENT, substr($string, $pos, $next - 1 - $pos), $line, $pos - $offset, $line, $next - 1 - $offset);
+                        $tokens[] = new Token(Token::T_COMMENT, substr($string, $pos, $next - $pos), $line, $pos - $offset, $line, $next - $offset);
                         $pos      = $next - 1;
                     } else {
                         $matches = [];
