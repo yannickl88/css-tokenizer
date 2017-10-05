@@ -11,6 +11,7 @@ class Tokenizer
 {
     const CHAR_SINGLEQUOTE  = "'";
     const CHAR_DOUBLEQUOTE  = '"';
+    const CHAR_BACKTICK     = '`';
     const CHAR_BACKSLASH    = '\\';
     const CHAR_SLASH        = '/';
     const CHAR_NEWLINE      = "\n";
@@ -132,9 +133,10 @@ class Tokenizer
                         $pos      = $next;
                     }
                     break;
+                case self::CHAR_BACKTICK:
                 case self::CHAR_SINGLEQUOTE:
                 case self::CHAR_DOUBLEQUOTE:
-                    $quote = $code === self::CHAR_SINGLEQUOTE ? "'" : '"';
+                    $quote = $code;
                     $next  = $pos;
 
                     do {
