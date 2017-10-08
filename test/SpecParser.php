@@ -15,7 +15,7 @@ final class SpecParser
         $eof = false;
 
         foreach (file($file) as $line) {
-            if (1 === preg_match('/^===+TEST$/', $line)) {
+            if (1 === preg_match('/^===+TEST$/', trim($line))) {
                 $eof = true;
                 continue;
             }

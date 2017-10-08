@@ -65,14 +65,6 @@ class Tokenizer
         while ($pos < $length) {
             $code = $string[$pos];
 
-            if ($code === self::CHAR_NEWLINE
-                || $code === self::CHAR_FEED
-                || ($code === self::CHAR_CR && $string[$pos + 1] !== self::CHAR_NEWLINE)
-            ) {
-                $offset = $pos;
-                $line++;
-            }
-
             switch ($code) {
                 case self::CHAR_NEWLINE:
                 case self::CHAR_SPACE:
@@ -80,23 +72,30 @@ class Tokenizer
                 case self::CHAR_CR:
                 case self::CHAR_FEED:
                     $next = $pos;
-                        do {
+                    $next_offset = $offset;
+                    $start_line = $line;
+
+                    while ($next < $length && in_array($string[$next], self::getWhitespaces())) {
+                        $code = $string[$next];
+
+                        if ($code === self::CHAR_CR && $string[$next + 1] === self::CHAR_NEWLINE) {
+                            $line++;
                             $next++;
+                            $next_offset = $next;
+                        } elseif ($code === self::CHAR_NEWLINE) {
+                            $line++;
+                            $next_offset = $next;
+                        }
 
-                            if ($next >= $length) {
-                                break;
-                            }
+                        $next++;
+                    }
 
-                            $code = $string[$next];
+                    $line_end = $line === $start_line ? -1 : $line;
+                    $offset_end = $next - 1 - $next_offset === $pos - $offset ? -1 : $next - 1 - $next_offset;
 
-                            if ($code === self::CHAR_NEWLINE) {
-                                $offset = $pos;
-                                $line++;
-                            }
-                        } while (in_array($code, self::getWhitespaces()));
-
-                    $tokens[] = new Token(Token::T_WHITESPACE, substr($string, $pos, $next - $pos), $line, $pos - $offset);
+                    $tokens[] = new Token(Token::T_WHITESPACE, substr($string, $pos, $next - $pos), $start_line, $pos - $offset, $line_end, $offset_end);
                     $pos      = $next - 1;
+                    $offset   = $next_offset;
                     break;
                 case self::CHAR_OPENSQUARE:
                     $tokens[] = new Token(Token::T_OPENSQUARE, $code, $line, $pos - $offset);

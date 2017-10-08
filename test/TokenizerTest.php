@@ -11,6 +11,32 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals([' ', "\n", "\t", "\r", "\f"], Tokenizer::getWhitespaces());
     }
 
+    public function testWindowsLineEndings()
+    {
+        self::assertEquals([
+            new Token(Token::T_WORD, 'foo', 1, 1, 1, 3),
+            new Token(Token::T_SEMICOLON, ';', 1, 4),
+            new Token(Token::T_WHITESPACE, "\r\n", 1, 5, 2, 0),
+            new Token(Token::T_WORD, 'bar', 2, 1, 2, 3),
+            new Token(Token::T_SEMICOLON, ';', 2, 4),
+            new Token(Token::T_WHITESPACE, "\n  ", 2, 5, 3, 2),
+        ], (new Tokenizer())->tokenize("foo;\r\nbar;\n  "));
+
+        self::assertEquals([
+            new Token(Token::T_WORD, 'foo', 1, 1, 1, 3),
+            new Token(Token::T_WHITESPACE, ' ', 1, 4),
+            new Token(Token::T_WORD, 'bar', 1, 5, 1, 7),
+            new Token(Token::T_SEMICOLON, ';', 1, 8),
+        ], (new Tokenizer())->tokenize('foo bar;'));
+
+        self::assertEquals([
+            new Token(Token::T_WORD, 'foo', 1, 1, 1, 3),
+            new Token(Token::T_WHITESPACE, "\n\n", 1, 4, 3, 0),
+            new Token(Token::T_WORD, 'bar', 3, 1, 3, 3),
+            new Token(Token::T_SEMICOLON, ';', 3, 4),
+        ], (new Tokenizer())->tokenize("foo\n\nbar;"));
+    }
+
     /**
      * @dataProvider parseProvider
      */
