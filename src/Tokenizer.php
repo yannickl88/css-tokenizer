@@ -12,6 +12,7 @@ class Tokenizer
     const CHAR_SINGLEQUOTE  = "'";
     const CHAR_DOUBLEQUOTE  = '"';
     const CHAR_BACKTICK     = '`';
+    const CHAR_TILDE        = '~';
     const CHAR_BACKSLASH    = '\\';
     const CHAR_SLASH        = '/';
     const CHAR_NEWLINE      = "\n";
@@ -31,7 +32,7 @@ class Tokenizer
     const CHAR_COMMA        = ',';
     const CHAR_AT           = '@';
 
-    const REGEX_ATEND       = '/[ \n\t\r\f\{\(\)\'"\;\[\]:#,]/';
+    const REGEX_ATEND       = '/[ \n\t\r\f\{\(\)\'"\;\[\]:#,~]/';
     const REGEX_WORDEND     = '/[ \n\t\r\f\(\)\{\}:;@!\'"\\\\\[\]#,]|\/(?=\*)/';
     const REGEX_BADBRACKET  = '/.[\\\\\/\("\'\n]/';
     const REGEX_HEX_ESCAPE  = '/[a-z0-9]/i';
@@ -114,6 +115,9 @@ class Tokenizer
                     break;
                 case self::CHAR_COMMA:
                     $tokens[] = new Token(Token::T_COMMA, $code, $line, $pos - $offset);
+                    break;
+                case self::CHAR_TILDE:
+                    $tokens[] = new Token(Token::T_TILDE, $code, $line, $pos - $offset);
                     break;
                 case self::CHAR_SEMICOLON:
                     $tokens[] = new Token(Token::T_SEMICOLON, $code, $line, $pos - $offset);

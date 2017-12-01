@@ -49,6 +49,7 @@ The following types are defined:
  * `T_COLON`, colon `:`.
  * `T_SEMICOLON`, semi-colon `;`.
  * `T_COMMA`, comma `,`.
+ * `T_TILDE`, tilde `~`.
  * `T_STRING`, everything between `'` or `"` quotes, like `"/path/to/my/image.jpg"`.
  * `T_OPENBRACKET`, open bracket `(`.
  * `T_CLOSEBRACKET`, close bracket `)`.

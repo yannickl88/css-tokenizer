@@ -21,6 +21,7 @@ class Token
     const T_COMMA        = 12;
     const T_OPENSQUARE   = 13;
     const T_CLOSESQUARE  = 14;
+    const T_TILDE        = 15;
 
     public $type;
     public $chars;
